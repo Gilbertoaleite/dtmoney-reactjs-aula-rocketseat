@@ -20,9 +20,11 @@ const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
 			<>
 				<Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
 				<Dashboard />
+
 				<Modal
 					isOpen={isNewTransactionModalOpen}
 					onRequestClose={handleCloseNewTransactionModal}
+					ariaHideApp={false}
 				/>
 				<GlobalStyle />
 			</>

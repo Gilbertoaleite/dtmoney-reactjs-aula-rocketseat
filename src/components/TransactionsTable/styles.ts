@@ -26,7 +26,7 @@ margin-top: 4rem;
             color: var(--text-title);
          }
 
-         &.pix{
+         &.deposit{
             color: var(--green);
          }
 

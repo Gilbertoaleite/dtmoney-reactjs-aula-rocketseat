@@ -1,20 +1,31 @@
-import { useEffect } from "react";
+// import { create } from "domain";
+import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { Container } from "./styles";
 // import {createServer} from "miragejs";
 
+interface Transaction {
+	id: 0;
+	title: '';
+	type: '';
+	category: '';
+	amount: 0;
+	createdAt: '';
+}
 
 export function TransactionsTable() {
+	const [transactions, setTransactions] = useState<Transaction[]>([]);
+
 	useEffect(() => {
 		api.get('transactions')
-			.then(response => console.log(response.data))
+			.then(response => setTransactions(response.data.transactions))
 
 		// fetch('http://localhost:3000/api/transactions').then(response => response.json())
 		// 	.then(data => console.log(data))
 	}, []);
 
    return (
-			<Container>
+			<Container >
 				<table>
 					<thead>
 						<tr>
@@ -25,32 +36,34 @@ export function TransactionsTable() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Desenvolvimento de website</td>
-							<td className="pix">15.000</td>
-							<td>Desenvolvimento</td>
-							<td>26/02/2022</td>
-						</tr>
-						<tr>
-							<td>Desenvolvimento de website</td>
-							<td className="pix">15.000</td>
-							<td>Desenvolvimento</td>
-							<td>26/02/2022</td>
-						</tr>
-						<tr>
-							<td>Contas de consumo</td>
-							<td className='withdraw'>-1.000</td>
-							<td>Agua e luz</td>
-							<td>02/03/2022</td>
-						</tr>
-						<tr>
-							<td>Aluguel</td>
-							<td className='withdraw'>-2.000</td>
-							<td>Casa</td>
-							<td>28/02/2022</td>
-						</tr>
+						{transactions.map(transaction => (
+							<tr key={transaction.id}>
+								<td>{transaction.title}</td>
+								<td className={transaction.type}>
+								{new Intl.NumberFormat('pt-BR', {
+									style: 'currency',
+									currency: 'BRL'
+								}).format(transaction.amount)}
+								</td>
+								<td>{transaction.category}</td>
+								<td>
+									{new Intl.DateTimeFormat('pt-BR').format(
+										new Date(transaction.createdAt)
+									)}
+								</td>	
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</Container>
 		);
 }
+
+
+		/* <tr>
+							<td>Aluguel</td>
+							<td className='withdraw'>-2.000</td>
+							<td>Casa</td>
+							<td>28/02/2022</td>
+						</tr> */
+	
