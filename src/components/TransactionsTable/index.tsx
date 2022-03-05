@@ -1,28 +1,10 @@
-// import { create } from "domain";
-import { useEffect, useState } from "react";
-import { api } from "../../services/api";
-import { Container } from "./styles";
-// import {createServer} from "miragejs";
 
-interface Transaction {
-	id: 0;
-	title: '';
-	type: '';
-	category: '';
-	amount: 0;
-	createdAt: '';
-}
+import {  useTransactions } from "../../hooks/useTransactions";
+import { Container } from "./styles";
 
 export function TransactionsTable() {
-	const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-	useEffect(() => {
-		api.get('transactions')
-			.then(response => setTransactions(response.data.transactions))
-
-		// fetch('http://localhost:3000/api/transactions').then(response => response.json())
-		// 	.then(data => console.log(data))
-	}, []);
+	const { transactions } = useTransactions();
+	
 
    return (
 			<Container >
@@ -59,6 +41,10 @@ export function TransactionsTable() {
 		);
 }
 
+// outro modo de consumir api
+
+// fetch('http://localhost:3000/api/transactions').then(response => response.json())
+		// 	.then(data => console.log(data))
 
 		/* <tr>
 							<td>Aluguel</td>
